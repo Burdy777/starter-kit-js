@@ -8,14 +8,14 @@ var gulp        = require('gulp'),
     uglify      = require('gulp-uglify'),
     concat      = require('gulp-concat'),
     imagemin    = require('gulp-imagemin'),
+    babel       = require("gulp-babel"),
     browserSync = require('browser-sync').create();
 
 // Static Server + watching scss/html files
 gulp.task('serve', ['sass', 'js'], function() {
 
     browserSync.init({
-        server: './',
-        browser: "google chrome canary"
+        server: './'
     });
 
     gulp.watch('src/scss/**/*.scss', ['sass']);
@@ -37,6 +37,7 @@ gulp.task('sass', function () {
 // Configure JS.
 gulp.task('js', function() {
   return gulp.src('src/js/**/*.js')
+    .pipe(babel())
     .pipe(uglify())
     .pipe(concat('app.js'))
     .pipe(rename({suffix: '.min'}))
